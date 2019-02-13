@@ -1,42 +1,26 @@
+import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import {userRouter} from "./router";
 
-const express = require('express');
+import userRouter  from "./router/userrouter";
+import videoRouter  from "./router/videorouter";
+import globalRouter from "./router/globalrouter";
+import routes from "./routes";
+
 const app = express();
 
+// app.set("view engine", "pug");
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(morgan("dev"));
 
-// const PORT = 4000;
-//
-// function handleListening(){
-//     console.log(`Listening on: http://localhost:${PORT}`);
-// }
+app.use(routes.home, globalRouter);
+app.use(routes.users, userRouter);
+app.use(routes.videos, videoRouter);
 
-const betweenHome = (req , res , next )=> {
-    console.log("between");
-    next();
-}
-
-const handleHome = (req , res , next) =>{
-    res.send("hello from my ass");
-    next();
-}
-
-const handleProfile = (req , res , next) =>{
-    res.send("you are on my profile");
-    next();
-}
-
-// app.use(betweenHome);
-app.get("/", betweenHome,handleHome);
-app.get("/profile" , handleProfile);
-app.use("/user" , userRouter);
 
 export default app;
