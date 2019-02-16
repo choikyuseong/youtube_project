@@ -1,4 +1,8 @@
 extends layouts/main
 
 block content
-    p home
+    .videos
+        h1 video
+        each item in Videos
+            h1= item.title
+            p= item.description
