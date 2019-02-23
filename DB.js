@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";  //env 쓰는이유 디비 오픈 숨기기위해
+dotenv.config();
 
 mongoose.connect(
-    "mongodb+srv://kusung2230:ks3220930@cluster0-ahhel.mongodb.net/test?retryWrites=true",
+    process.env.MONGO_URL,
     {
         useNewUrlParser:true,
         useFindAndModify:false
