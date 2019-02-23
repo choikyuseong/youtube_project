@@ -1,4 +1,4 @@
-import {Videos} from "../DB";
+//import {Videos} from "../DB";
 import routes from '../routes';
 
 export const videos  = (req , res) => res.render("videos",{pageTitle:"videos"});
