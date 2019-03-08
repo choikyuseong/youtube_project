@@ -30,15 +30,55 @@ export const video_detail  = async (req , res) => {
     } = req;
     try {
         const video = await Video.findById(id);
-        res.render("video_detail", {pageTitle: "video_detail", video});
+        res.render("video_detail", {pageTitle: video.title, video});
     } catch(error) {
         res.redirect(routes.home);
     }
 
 };
 
-export const edit_video  =(req , res) => res.render("edit_video",{pageTitle:"edit_video"});
-export const delete_video  =(req , res) => res.render("delete_video",{pageTitle:"delete_video"});
+export const getEdit_video  = async (req , res) => {
+    const {
+        params: { id }
+    } = req;
+    try {
+        const video = await Video.findById(id);
+        res.render("editVideo", {pageTitle: `Edit ${video.title}` , video});
+    } catch(error) {
+        res.redirect(routes.home);
+    }
+
+};
+
+export const postEdit_video  = async (req , res) => {
+    const {
+        params: { id },
+        body: { title , description }
+    } = req;
+    try {
+        await Video.findOneAndUpdate({_id: id}, {title,description});
+        res.redirect(routes.video_detail(id));
+    } catch(error) {
+        res.redirect(routes.home);
+    }
+
+};
+
+
+
+
+export const delete_video  = async (req , res) => {
+    const {
+        params: { id }
+    } = req;
+    try {
+        await Video.findOneAndRemove({_id: id});
+
+    } catch(error) {
+
+    }
+    res.redirect(routes.home);
+};
 
 
 
